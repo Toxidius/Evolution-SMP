@@ -28,8 +28,7 @@ public class PlayerSleepWatcher implements Runnable{
 				}
 			}
 			else if (player.isSleeping() && Core.playerSleep.sleepCanceled == true){
-				player.setFireTicks(20); // eject them
-				Bukkit.getServer().broadcastMessage("ejected on 5 calls");
+				player.damage(0.01, null); // eject them
 			}
 			
 			Core.playerSleep.sleepCanceled = false;
@@ -40,8 +39,7 @@ public class PlayerSleepWatcher implements Runnable{
 		else if (Core.playerSleep.sleepCanceled == true){
 			Core.playerSleep.sleepCanceled = false;
 			Core.playerSleep.playerIsSleeping = false;
-			player.setFireTicks(20); // eject them
-			Bukkit.getServer().broadcastMessage("ejected before 5 calls");
+			player.damage(0.01, null); // eject them
 			Bukkit.getScheduler().cancelTask(id); // end scheduled task
 			return;
 		}
