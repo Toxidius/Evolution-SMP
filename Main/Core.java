@@ -95,6 +95,7 @@ import Evolution.Relics.AxeOfBeheading;
 import Evolution.Relics.ExpExtractor;
 import Evolution.Relics.FireworkBomb;
 import Evolution.Relics.FortunatePickaxe;
+import Evolution.Relics.HealingElixir;
 import Evolution.Relics.HoeOfPossession;
 import Evolution.Relics.JackHammer;
 import Evolution.Relics.LamboCart9000;
@@ -106,7 +107,6 @@ import Evolution.Relics.SlimeChunkLocator;
 import Evolution.Relics.SpeedyMcGeePickaxe;
 import Evolution.Relics.SwordOfExperience;
 import Evolution.Relics.SwordOfFreezing;
-import Evolution.Relics.WTF;
 import Evolution.Relics.WateringWand;
 
 public class Core extends JavaPlugin implements Listener{
@@ -194,7 +194,7 @@ public class Core extends JavaPlugin implements Listener{
 	public static LumberAxe lumberAxe;
 	public static ExpExtractor expExtractor;
 	public static PhenomenalBow phenomenalBow;
-	public static WTF wtf;
+	public static HealingElixir healingElixir;
 	
 	// christmas relic objects
 	public static SnowballGun snowballGun;
@@ -298,7 +298,7 @@ public class Core extends JavaPlugin implements Listener{
 		lumberAxe = new LumberAxe();
 		expExtractor = new ExpExtractor();
 		phenomenalBow = new PhenomenalBow();
-		wtf = new WTF();
+		healingElixir = new HealingElixir();
 		
 		// christmas relic objects
 		snowballGun = new SnowballGun();
@@ -370,7 +370,7 @@ public class Core extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(slimeChunkLocator, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(lumberAxe, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(expExtractor, thisPlugin);
-		Bukkit.getPluginManager().registerEvents(wtf, thisPlugin);
+		Bukkit.getPluginManager().registerEvents(healingElixir, thisPlugin);
 		// christmas relics
 		Bukkit.getPluginManager().registerEvents(snowballGun, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(mistleToe, thisPlugin);
