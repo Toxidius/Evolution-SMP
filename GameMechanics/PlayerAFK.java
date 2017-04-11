@@ -3,6 +3,7 @@ package Evolution.GameMechanics;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -73,7 +74,7 @@ public class PlayerAFK implements Listener, Runnable{
 			if ((current+1) == 6){
 				// player is now considered afk (60 seconds afk)
 				// update display name to show afk
-				player.setPlayerListName(player.getName() + " (AFK)");
+				player.setPlayerListName(ChatColor.GRAY + "*" + player.getName() + "*");
 			}
 		}
 		else{

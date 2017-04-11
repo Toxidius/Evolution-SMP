@@ -19,19 +19,6 @@ public class HoeOfPossessionWatcher implements Runnable{
 		this.entity = entity;
 		Core.hoeOfPossession.possessedEntities.add(entity);
 		id = Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.thisPlugin, this, 0, 1); // run every tick
-		
-		
-		//this.fallingBlock = (FallingBlock) player.getWorld().spawnFallingBlock(player.getLocation(), Material.STONE, (byte) 0);
-		//((CraftEntity) fallingBlock).getHandle().teleportTo(player.getLocation(), false);
-		//this.armorStand = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-		//armorStand.setMarker(true);
-		//armorStand.setSmall(true);
-		//armorStand.setVisible(false);
-		//this.armorStand.setGravity(false);
-		
-		//Villager villager = (Villager) player.getWorld().spawnEntity(player.getEyeLocation(), EntityType.VILLAGER);
-		//villager.getLocation();
-		//this.armorStand.setPassenger(villager);
 	}
 	
 	public void stopPosession(){
