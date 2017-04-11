@@ -83,6 +83,7 @@ import Evolution.GameMechanics.StripMineTroll;
 import Evolution.GameMechanics.TabList;
 import Evolution.GameMechanics.TopHatWatcher;
 import Evolution.GameMechanics.VillagerToWitchFix;
+import Evolution.GameMechanics.VillagerTradeReplenishEffect;
 import Evolution.HolidayRelics.ChristmasParty;
 import Evolution.HolidayRelics.EnchantedParticles;
 import Evolution.HolidayRelics.MistleToe;
@@ -176,6 +177,7 @@ public class Core extends JavaPlugin implements Listener{
 	public static FancySounds fancySounds;
 	public static FixChunkUnloading fixChunkUnloading;
 	public static AprilFoolsCreeperTroll aprilFoolsCreeperTroll;
+	public static VillagerTradeReplenishEffect villagerTradeReplenishEffect;
 	
 	// relic objects
 	public static JackHammer jackHammer;
@@ -280,6 +282,7 @@ public class Core extends JavaPlugin implements Listener{
 		fancySounds = new FancySounds();
 		fixChunkUnloading = new FixChunkUnloading();
 		aprilFoolsCreeperTroll = new AprilFoolsCreeperTroll();
+		villagerTradeReplenishEffect = new VillagerTradeReplenishEffect();
 		
 		// relic objects
 		jackHammer = new JackHammer();
@@ -356,6 +359,7 @@ public class Core extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(fancySounds, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(fixChunkUnloading, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(aprilFoolsCreeperTroll, thisPlugin);
+		Bukkit.getPluginManager().registerEvents(villagerTradeReplenishEffect, thisPlugin);
 		// relics
 		Bukkit.getPluginManager().registerEvents(jackHammer, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(axeOfBeheading, thisPlugin);

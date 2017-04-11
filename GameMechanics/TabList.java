@@ -19,12 +19,15 @@ import net.minecraft.server.v1_11_R1.PlayerConnection;
 
 public class TabList implements Listener, Runnable{
 
-	private long previousTime;
+	private long[] previousTimes;
+	private int call;
 	private double tps;
 	
 	public TabList(){
-		previousTime = System.currentTimeMillis();
-		tps = (double) 20;
+		previousTimes = new long[7];
+		previousTimes[1] = System.currentTimeMillis();
+		call = 2;
+		tps = (double)0;
 		
 		// send all currently online players the header and footer
 		for (Player player : Bukkit.getOnlinePlayers()){
@@ -33,20 +36,32 @@ public class TabList implements Listener, Runnable{
 			}
 		}
 		
-		// start the runnable that executes every 60 seconds sending the latest tps
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.thisPlugin, this, 600, 600); // 30 second interval (first starts 30 seconds from now)
+		// start the runnable that executes every 10 seconds sending the latest tps
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.thisPlugin, this, 200, 200); // 10 second interval (first call starts 10 seconds from now)
 	}
 	
 	@Override
 	public void run() {
-		// update tps
-		long time = System.currentTimeMillis();
-		double difference = (System.currentTimeMillis() - previousTime) / 1000.0;
-		tps = (600.0 / difference); // baseline for 20 tps is 60000ms have passed
-		
-		if (tps > 20.0){
-			tps = (double)20.0;
+		// check if the previousTimes is full of previous times (60 full seconds have passed)
+		if (previousTimes[1] == 0
+				|| previousTimes[6] == 0){
+			
+			// not full yet, so just fill in the current slot with the current time
+			previousTimes[call] = System.currentTimeMillis();
 		}
+		else{
+			// update tps
+			long time = System.currentTimeMillis();
+			double difference = (time - previousTimes[call]) / 1000.0;
+			tps = (1200.0 / difference); // baseline for 20 tps is 60000ms have passed
+			
+			if (tps > 20.0){
+				tps = (double)20.0;
+			}
+			
+			previousTimes[call] = time;
+		}
+		
 		
 		// send all players the new tps in header/footer
 		for (Player player : Bukkit.getOnlinePlayers()){
@@ -54,7 +69,10 @@ public class TabList implements Listener, Runnable{
 				sendPlayerTabList(player);
 			}
 		}
-		previousTime = time;
+		call++; // increment call count
+		if (call > 6){
+			call = 1;
+		}
 	}
 	
 	@EventHandler
@@ -66,17 +84,25 @@ public class TabList implements Listener, Runnable{
 		int ping = getPing(player);
 		String pingText = "";
 		if (ping < 0){
-			pingText = "?";
+			pingText = "Loading...";
 		}
 		else if (ping > 5000){
-			pingText = "?";
+			pingText = "Loading...";
 		}
 		else{
 			pingText = "" + ping;
 		}
 		
+		String tpsText = "";
+		if (tps <= 0.01){
+			tpsText = "Loading... ";
+		}
+		else{
+			tpsText = "" + round(tps);
+		}
+		
 		String headerText = ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "Evolution SMP";
-		String footerText = ChatColor.GREEN + "TPS: " + round(tps) + '\n' + "Ping: " + pingText + "ms";
+		String footerText = ChatColor.GREEN + "TPS: " + tpsText + '\n' + "Ping: " + pingText + "ms";
 		
 		CraftPlayer craftPlayer = (CraftPlayer) player;
 		PlayerConnection connection = craftPlayer.getHandle().playerConnection;
@@ -127,5 +153,4 @@ public class TabList implements Listener, Runnable{
 		input = Math.round( (input*100.0) )/100.0; // round to 0.00
 		return input;
 	}
-
 }
