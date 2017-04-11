@@ -53,7 +53,7 @@ public class ExpExtractor implements Listener{
 		if (e.getHand() == EquipmentSlot.HAND
 				&& e.getRightClicked() instanceof EnderCrystal
 				&& e.getRightClicked().getCustomName() != null
-				&& e.getRightClicked().getCustomName().equals(ChatColor.RED + "Exp Extractor")
+				&& e.getRightClicked().getCustomName().contains(ChatColor.RED + "Exp Extractor")
 				&& e.getPlayer().getLevel() > 0){
 			
 			int currentLevel = e.getPlayer().getLevel();
@@ -83,6 +83,22 @@ public class ExpExtractor implements Listener{
 			
 			e.getPlayer().setLevel(currentLevel-1);
 			
+			// counter display update
+			int numberUses;
+			String expExtractorName = e.getRightClicked().getCustomName();
+			if (expExtractorName.contains("-")){
+					// get the current amount of uses from the name
+					expExtractorName = expExtractorName.split("-")[1];
+					expExtractorName = expExtractorName.split(" ")[1];
+					numberUses = Integer.valueOf(expExtractorName);
+			}
+			else{
+				// never used
+				numberUses = 0;
+			}
+			numberUses++; // increment uses
+			e.getRightClicked().setCustomName(ChatColor.RED + "Exp Extractor - " + numberUses + " Levels Extracted"); // update display name
+			
 			// particle effect
 			Location effectLocation;
 			for (int i = 0; i < 20; i++){
@@ -100,8 +116,10 @@ public class ExpExtractor implements Listener{
 				&& e.getHand() == EquipmentSlot.HAND
 				&& e.getPlayer().getInventory().getItemInMainHand().getType() == Material.END_CRYSTAL
 				&& e.getPlayer().getInventory().getItemInMainHand().hasItemMeta()
-				&& e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(ChatColor.RED + "Exp Extractor")){
+				&& e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains(ChatColor.RED + "Exp Extractor")){
 			e.setCancelled(true); // prevent regular minecraft code for ender crystal placement
+			String relicName = e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName();
+			
 			int amount = e.getPlayer().getInventory().getItemInMainHand().getAmount();
 			if (amount == 1){
 				// remove it from hand
@@ -115,7 +133,9 @@ public class ExpExtractor implements Listener{
 			
 			Location spawnLocation = e.getClickedBlock().getLocation().add(0.5, 1.0, 0.5);
 			EnderCrystal crystal = (EnderCrystal) spawnLocation.getWorld().spawnEntity(spawnLocation, EntityType.ENDER_CRYSTAL);
-			crystal.setCustomName(ChatColor.RED + "Exp Extractor");
+			
+			crystal.setCustomName(relicName);
+			//crystal.setCustomName(ChatColor.RED + "Exp Extractor");
 			crystal.setCustomNameVisible(true);
 		}
 	}
@@ -124,7 +144,7 @@ public class ExpExtractor implements Listener{
 	public void onExpExtractorDamage(EntityDamageEvent e){
 		if (e.getEntity() instanceof EnderCrystal
 				&& e.getEntity().getCustomName() != null
-				&& e.getEntity().getCustomName().equals(ChatColor.RED + "Exp Extractor")){
+				&& e.getEntity().getCustomName().contains(ChatColor.RED + "Exp Extractor")){
 			e.setCancelled(true); // prevent explosion
 			
 			if (e.getCause() == DamageCause.PROJECTILE){
@@ -136,7 +156,12 @@ public class ExpExtractor implements Listener{
 			if (e.getCause() == DamageCause.ENTITY_ATTACK){
 				EntityDamageByEntityEvent e2 = (EntityDamageByEntityEvent) e;
 				if (e2.getDamager() instanceof Player){
-					e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation().add(0.0, 1.0, 0.0), getRelic());
+					ItemStack relic = getRelic().clone();
+					ItemMeta meta = relic.getItemMeta();
+					meta.setDisplayName(e.getEntity().getCustomName());
+					relic.setItemMeta(meta);
+					
+					e.getEntity().getWorld().dropItemNaturally(e.getEntity().getLocation().add(0.0, 1.0, 0.0), relic);
 					e.getEntity().remove();
 				}
 			}
@@ -147,7 +172,7 @@ public class ExpExtractor implements Listener{
 	public void onExpExtractorCombust(ExplosionPrimeEvent e){
 		if (e.getEntity() instanceof EnderCrystal
 				&& e.getEntity().getCustomName() != null
-				&& e.getEntity().getCustomName().equals(ChatColor.RED + "Exp Extractor")){
+				&& e.getEntity().getCustomName().contains(ChatColor.RED + "Exp Extractor")){
 			e.setCancelled(true); // prevent explosion
 		}
 	}
