@@ -24,6 +24,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -81,7 +82,6 @@ import Evolution.GameMechanics.ServerInfo;
 import Evolution.GameMechanics.ServerMOTD;
 import Evolution.GameMechanics.StripMineTroll;
 import Evolution.GameMechanics.TabList;
-import Evolution.GameMechanics.TopHatWatcher;
 import Evolution.GameMechanics.VillagerToWitchFix;
 import Evolution.GameMechanics.VillagerTradeReplenishEffect;
 import Evolution.HolidayRelics.ChristmasParty;
@@ -93,6 +93,8 @@ import Evolution.HolidayRelics.SnowTime;
 import Evolution.HolidayRelics.SnowballGun;
 import Evolution.Messaging.MessageCommandExecutor;
 import Evolution.Relics.AxeOfBeheading;
+import Evolution.Relics.BalloonAnimal;
+import Evolution.Relics.BalloonAnimalWatcher;
 import Evolution.Relics.ExpExtractor;
 import Evolution.Relics.FireworkBomb;
 import Evolution.Relics.FortunatePickaxe;
@@ -197,6 +199,7 @@ public class Core extends JavaPlugin implements Listener{
 	public static ExpExtractor expExtractor;
 	public static PhenomenalBow phenomenalBow;
 	public static HealingElixir healingElixir;
+	public static BalloonAnimal balloonAnimal;
 	
 	// christmas relic objects
 	public static SnowballGun snowballGun;
@@ -302,6 +305,7 @@ public class Core extends JavaPlugin implements Listener{
 		expExtractor = new ExpExtractor();
 		phenomenalBow = new PhenomenalBow();
 		healingElixir = new HealingElixir();
+		balloonAnimal = new BalloonAnimal();
 		
 		// christmas relic objects
 		snowballGun = new SnowballGun();
@@ -375,6 +379,7 @@ public class Core extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(lumberAxe, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(expExtractor, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(healingElixir, thisPlugin);
+		Bukkit.getPluginManager().registerEvents(balloonAnimal, thisPlugin);
 		// christmas relics
 		Bukkit.getPluginManager().registerEvents(snowballGun, thisPlugin);
 		Bukkit.getPluginManager().registerEvents(mistleToe, thisPlugin);
@@ -957,11 +962,11 @@ public class Core extends JavaPlugin implements Listener{
 			player.getInventory().addItem(partyPopper.getRelic());
 			*/
 			
-			@SuppressWarnings("unused")
-			TopHatWatcher watcher = new TopHatWatcher(player);
+			//@SuppressWarnings("unused")
+			//TopHatWatcher watcher = new TopHatWatcher(player);
 			
-			/*
-			for (int i = 0; i < 8; i++){
+			
+			for (int i = 0; i < 3; i++){
 				Pig pig = (Pig) player.getWorld().spawnEntity(player.getLocation().add(0.0, 3.0, 0.0), EntityType.PIG);
 				pig.setBaby();
 				pig.setGravity(false);
@@ -969,7 +974,7 @@ public class Core extends JavaPlugin implements Listener{
 				@SuppressWarnings("unused")
 				BalloonAnimalWatcher watcher = new BalloonAnimalWatcher(pig, player);
 			}
-			*/
+			
 			
 			
 			return true;
