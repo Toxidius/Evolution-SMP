@@ -57,12 +57,12 @@ public class WateringWand implements Listener{
 			
 			// loop through 3x3 blocks around the player and bonemeal random ones
 			Location center = e.getPlayer().getLocation();
-			int xFrom = center.getBlockX()-1;
-			int xTo = center.getBlockX()+1;
+			int xFrom = center.getBlockX()-2;
+			int xTo = center.getBlockX()+2;
 			int yFrom = center.getBlockY();
 			int yTo = center.getBlockY()+1;
-			int zFrom = center.getBlockZ()-1;
-			int zTo = center.getBlockZ()+1;
+			int zFrom = center.getBlockZ()-2;
+			int zTo = center.getBlockZ()+2;
 			
 			Block temp;
 			Material type;
