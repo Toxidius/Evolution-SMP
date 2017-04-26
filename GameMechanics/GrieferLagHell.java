@@ -17,12 +17,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.potion.PotionEffectType;
 
 public class GrieferLagHell implements Listener, CommandExecutor{
 
 	private ArrayList<String> grieferNames;
 	private ArrayList<String> grieferUUIDs;
+	private ArrayList<String> grieferIPs;
 	public ArrayList<Player> currentlyLaggingPlayers;
 	
 	public GrieferLagHell(){
@@ -32,6 +34,8 @@ public class GrieferLagHell implements Listener, CommandExecutor{
 		grieferUUIDs = new ArrayList<String>();
 		grieferUUIDs.add("9cb7274d-02f9-451b-9ae0-6645a1d31884"); // diano
 		grieferUUIDs.add("ab95dc51-6acd-48f2-a88e-e82d44011cf6"); // rubiu5
+		grieferIPs = new ArrayList<String>();
+		grieferIPs.add("187.188.10.214"); // diano/rubiu5's ip
 		currentlyLaggingPlayers = new ArrayList<>();
 	}
 	
@@ -97,6 +101,24 @@ public class GrieferLagHell implements Listener, CommandExecutor{
 			e.getPlayer().removePotionEffect(PotionEffectType.JUMP);
 			e.getPlayer().setWalkSpeed(0.2F); // reset back to normal walking speed
 			currentlyLaggingPlayers.remove(e.getPlayer());
+		}
+	}
+	
+	@EventHandler
+	public void onServerGrieferPingEvent(ServerListPingEvent e){
+		String pingIP = e.getAddress().toString();
+		pingIP = pingIP.substring(1, pingIP.length());
+		
+		if (grieferIPs != null
+				&& grieferIPs.contains(pingIP)){
+			// log it
+			String logText = "";
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			logText += dateFormat.format(date) + " "; // 2013/10/15 16:16:39
+			logText += pingIP + " pinged the server.";
+			
+			writeToLog("GrieferLagLog.txt", logText);
 		}
 	}
 	
